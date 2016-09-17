@@ -9,6 +9,7 @@ public class MainTest {
 		System.out.println("okclj");
 		String liqi = "a";
 		System.out.println("cljdk");
+		int b =0;
 		int a = 0;
 	}
 }
