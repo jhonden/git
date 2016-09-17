@@ -7,6 +7,7 @@ public class MainTest {
 		Evis evis = Evis.INSTANCE;
 		System.out.println("ok");
 		System.out.println("okclj");
+		String liqi = "a";
 		System.out.println("cljdk");
 	}
 }
