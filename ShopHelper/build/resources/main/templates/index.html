@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Shop Helper</title>
+<link rel="stylesheet" type="text/css" href="/semantic/semantic.min.css" />
+<script type="text/javascript" src="/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="/semantic/semantic.min.js"></script>
+<style type="text/css">
+	#header{
+		min-height:80px;
+		padding-top:0;
+		padding-bottom:0;
+	}
+	
+	#leftMenu{
+		margin-left: 10px;
+		width:100%;
+	}
+	
+	#rightContent{
+		padding-left:0px;
+	}
+	
+	.home-bg{
+		background-color: #443A38;
+	}
+	
+	.logo{
+		padding-top: 14px;
+	}
+	
+	#content{
+		padding-top:0px;
+	}
+	.margin{
+		margin-left: 20px;
+	}
+	.bg-red{
+		background-color: red;
+	}
+	.bg-blue{
+		background-color: blue;
+	}
+	.bg-green{
+		background-color: green;
+	}
+	.bg-gray{
+		background-color:#F4F4F4;
+	}
+	.pad4pix{
+		padding-left: 10px;
+	}
+	.ui.vertical.menu .item .menu .active.item{
+		background-color: #EBF2FC;
+	}
+	.login.info{
+		float:right;
+		margin-top:45px;
+	}
+	.login.info h{
+		color:#fff;
+		font-style: italic;
+		font-size: 17px;
+	}
+	.login.info a{
+		margin-left:20px;
+		margin-right:40px;
+		cursor:pointer;
+		font-weight: bold;
+		
+	}
+</style>
+</head>
+<body id="home" class="home-bg">
+	<div class="ui grid">
+		  <div id="header" class="row">
+		    <div class="three wide column">
+		      <img class="logo" src="/images/shophelper.png"/>
+		    </div>
+		    <div class="ten wide column">
+		      <p></p>
+		    </div>
+		    <div class="three wide column">
+		      <div class="login info">
+		      	  <img src=""/>
+			      <h th:text="${user.name}"></h>
+			      <a href="/logout">退出</a>
+		      </div>
+		      
+		    </div>
+		  </div>
+		  <div id="content" class="content row">
+		    <div class="three wide column">
+		       <div id="leftMenu" class="ui vertical menu">
+		       		  <div class="item">
+					      <div class="header"> <i class="grid  icon">S</i>销售管理</div>
+					      <div class="pad4pix menu">
+					      <a class="item" url="/sell/index">销售</a>
+					      <a class="item" url="/view/sell@sell">销售记录</a>
+					    </div>
+					  </div>
+					  <div class="item">
+					      <div class="header"> <i class="grid  icon">B</i>进货管理</div>
+					      <div class="pad4pix menu">
+					      <a class="item" url="/buyLog/index">进货</a>
+					      <a class="item" url="/ptype/index">商品类型</a>
+					      <a class="item" url="/product/index">商品信息</a>
+					    </div>
+					  </div>
+					  <div class="item">
+					    <div class="header"><i class="grid  icon">R</i>运营报告</div>
+					    <div class="pad4pix menu">
+					      <a class="item">账务流水</a>
+					      <a class="item">销量统计</a>
+					    </div>
+					  </div>
+					  <div class="item">
+					    <div class="header"><i class="grid  icon">U</i>用户管理</div>
+					    <div class="pad4pix menu">
+					      <a class="item" url="/view/user@index">用户查询</a>
+					      <a class="item">修改密码</a>
+					    </div>
+					  </div>
+					  
+					</div>
+		    </div>
+		    <div id="rightContent" class="thirteen wide bg-gray column">
+		         <iframe width="100%" height="500px" style="border:none;" src=""></iframe>
+		    </div>
+		  </div>
+		</div>
+		
+		<script type="text/javascript">
+		
+			$(function(){
+				$("#leftMenu .menu .item").click(function(){
+					$("#leftMenu .menu .item").removeClass("active");
+					$(this).addClass("active");
+					$("#rightContent iframe").attr("src",$(this).attr("url"));
+				}).eq(0).click();
+				$("#rightContent iframe").height($(window).height() - $("#header").height() - 14);
+				
+				window.onresize = function(){
+					$("#rightContent iframe").height($(window).height() - $("#header").height() - 14);
+				}
+			});
+			
+		</script>
+		
+</body>
+</html>

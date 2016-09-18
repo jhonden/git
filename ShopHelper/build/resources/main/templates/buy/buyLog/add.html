@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="/semantic/semantic.min.css" />
+<script type="text/javascript" src="/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="/semantic/semantic.min.js"></script>
+<style type="text/css">
+	#buy{
+		padding:20px;
+	}
+	#header{
+		padding:20px;
+		padding-bottom:0px;
+		padding-top:10px;
+	}
+	#searchForm{
+		padding:0px;
+	}
+	#result{
+		padding:14px;
+		padding-top:0px;
+	}
+	#action{
+		padding:0px;
+		padding-left:14px;
+	}
+	#searchForm .form.segment{
+		margin-left:14px;
+		padding:20px;
+	}
+</style>
+</head>
+<body id="buy">
+	<div class="ui grid">
+		  <div id="header" class="row">
+		    <div class="ui large breadcrumb">
+			  <a class="section">B 进货管理</a>
+			  <i class="right chevron icon divider"></i>
+			  <a class="section">进货</a>
+			  <i class="right chevron icon divider"></i>
+			  <div class="active section">ADD</div>
+			</div>
+		  </div>
+		  <div class="ui  divider"> </div>
+		  <div id="searchForm" class="row">
+		  		<div class="ui form segment">
+		  		  <div class="fields">
+		  		  	  <div class="field">
+				        <label>进货员</label>
+				        <div class="ui  search selection dropdown">
+						  <input type="hidden" name="userid" />
+						  <i class="dropdown icon"></i>
+						  <div class="default text">选择进货员</div>
+						  <div class="menu"  >
+						  	<div class="item" th:each="user,userStat:${users}"  th:attr="data-value=${user.id}"  th:text="${user.name}">Afghanistan</div>
+						  </div>
+						</div>
+				      </div>
+				      <div class="field">
+				        <label>商品名称</label>
+				        <div class="ui  search selection dropdown">
+						  <input type="hidden" name="productid" />
+						  <i class="dropdown icon"></i>
+						  <div class="default text">选择商品</div>
+						  <div class="menu"  >
+						  	<div class="item" th:each="product,productStat:${products}" th:attr="data-value=${product.id}"  th:text="${product.name}">Afghanistan</div>
+						  </div>
+						</div>
+				      </div>
+				  </div>
+				  <div class="fields">
+					  <div class="field">
+					    <label>商品进价</label>
+					    <input type="text" name="buyPrice" placeholder="price(元)"/>
+					  </div>
+					  <div class="field">
+					    <label>进货量</label>
+					    <input type="text" name="buyCount" placeholder="icon"/>
+					  </div>
+				   </div>
+				   <div class="field">
+					    <label>备注</label>
+					    <textarea rows="4" cols="" placeholder="150个字符以内" name="remark"></textarea>
+				   </div>
+				   <div class="ui submit button">提交</div>
+				</div>
+		  </div>
+	</div>
+	<script type="text/javascript" src="/comm.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.ui.search.selection.dropdown')
+			  .dropdown();
+			$("#buy .form").form({
+				onSuccess:function(event,fields){
+					console.log(fields);
+					$.ajax({
+						url:'/buyLog/add',
+						contentType:'application/json',
+						dataType:'json',
+						data:JSON.stringify(fields),
+						method:'post',
+						success:function(msg){
+							if(msg.status == "0"){
+								goTo("/buyLog/index");
+							}
+						},
+						error:function(e){
+							console.log(e);
+						}
+					});
+				}
+			});
+		});
+	</script>
+	
+</body>
+</html>

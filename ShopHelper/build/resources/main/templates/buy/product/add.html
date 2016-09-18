@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="/semantic/semantic.min.css" />
+<script type="text/javascript" src="/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="/semantic/semantic.min.js"></script>
+<style type="text/css">
+	#buy{
+		padding:20px;
+	}
+	#header{
+		padding:20px;
+		padding-bottom:0px;
+		padding-top:10px;
+	}
+	#searchForm{
+		padding:0px;
+	}
+	#result{
+		padding:14px;
+		padding-top:0px;
+	}
+	#action{
+		padding:0px;
+		padding-left:14px;
+	}
+	#searchForm .form.segment{
+		margin-left:14px;
+		padding:20px;
+	}
+</style>
+</head>
+<body id="buy">
+	<div class="ui grid">
+		  <div id="header" class="row">
+		    <div class="ui large breadcrumb">
+			  <a class="section">B 进货管理</a>
+			  <i class="right chevron icon divider"></i>
+			  <a class="section">商品信息</a>
+			  <i class="right chevron icon divider"></i>
+			  <div class="active section">ADD</div>
+			</div>
+		  </div>
+		  <div class="ui  divider"> </div>
+		  <div id="searchForm" class="row">
+		  		<div class="ui form segment">
+		  		  <div class="fields">
+				      <div class="field">
+				        <label>类别</label>
+				        <select class="ui dropdown" name="typeid">
+						  <option th:each="ptype,typeStat:${ptypes}" th:value="${ptype.id}" th:text="${ptype.name}">Gender</option>
+						</select>
+				      </div>
+				      <div class="field">
+					    <label>商品名称</label>
+					    <input type="text" name="name" placeholder="name"/>
+					  </div>
+				  </div>
+				  <div class="fields">
+					  <div class="field">
+					    <label>商品售价</label>
+					    <input type="text" name="sellPrice" placeholder="price(元)"/>
+					  </div>
+					   <div class="field">
+						    <label>商品图标</label>
+						    <input type="text" name="icon" placeholder="icon"/>
+						  </div>
+				   </div>
+				   <div class="field">
+					    <label>商品描述</label>
+					    <textarea rows="4" cols="" placeholder="150个字符以内" name="description"></textarea>
+					  </div>
+				  
+				  <div class="ui submit button">提交</div>
+				</div>
+		  </div>
+	</div>
+	<script type="text/javascript" src="/comm.js"></script>
+	<script type="text/javascript">
+		$(function(){
+			$('.ui.dropdown')
+			  .dropdown();
+			$("#buy .form").form({
+				onSuccess:function(event,fields){
+					console.log(fields);
+					$.ajax({
+						url:'/product/add',
+						contentType:'application/json',
+						dataType:'json',
+						data:JSON.stringify(fields),
+						method:'post',
+						success:function(msg){
+							if(msg.status == "0"){
+								goTo("/product/index");
+							}
+						},
+						error:function(e){
+							console.log(e);
+						}
+					});
+				}
+			});
+		});
+	</script>
+	
+</body>
+</html>
