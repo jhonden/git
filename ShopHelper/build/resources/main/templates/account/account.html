@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="/semantic/semantic.min.css" />
+<script type="text/javascript" src="/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="/semantic/semantic.min.js"></script>
+<style type="text/css">
+	#buy{
+		padding:20px;
+	}
+	
+	#content{
+		width:200px;
+		height:200px;
+		text-align: center;
+		border-radius:100px;
+		border:1px solid gray;
+		background-color: #E8F2FE;
+		margin-top:80px;
+		margin-left:120px;
+	}
+	
+	#content h4{
+		color:red;
+		margin-top:5px;
+	}
+	
+	#inner{
+		margin-top:50px;
+		align-self:center;
+		width:100px;
+		height:100px;
+		border-radius:50px!important;
+		border:1px solid gray;
+		line-height: 100px;
+		background-color: #C958B4;
+		color:white;
+	}
+	
+</style>
+</head>
+<body id="buy">
+	<div class="ui grid">
+		  <div id="header" class="row">
+		    <div class="ui large breadcrumb">
+			  <a class="section">M 财务管理</a>
+			  <i class="right chevron icon divider"></i>
+			  <a class="section">账户查询</a>
+			  <i class="right chevron icon divider"></i>
+			  <div class="active section">AMOUNT</div>
+			</div>
+		  </div>
+		  <div class="ui  divider"> </div>
+		  <div id="resultRow" class="row">
+	      </div>
+	</div>
+	<div id="templates" style="display:none;">
+	    <div id="contentTmp" class="row">
+		  		  <div class="ui cards">
+					   <div id="content" class="red card">
+						   <div id="inner" class="inner">{inAccount}</div>
+						   <h4>今日入账</h4>
+					  </div>
+					  <div id="content" class="red card">
+						   <div id="inner" class="inner">{account}</div>
+						   <h4>账户余额</h4>
+					   </div>
+					  <div id="content" class="red card">
+						   <div id="inner" class="inner">{outAccount}</div>
+						   <h4>今日出账</h4>
+					  </div>
+				  </div>
+	      </div>
+	</div>
+	<script type="text/javascript" src="/comm.js"></script>
+	
+	<script th:inline="javascript" type="text/javascript">
+		/*<![CDATA[*/
+				var templates = {};
+				$(function(){
+					templates.contentTmp = $("#contentTmp").html();
+					$.ajax({
+						url:'/account/load',
+						contentType:'application/json',
+						dataType:'json',
+						method:'post',
+						success:function(msg){
+							if(msg.status == "0"){
+								var html = templates.contentTmp.replace(/\{inAccount\}/g,msg.data.todayInAccount.amount)
+															   .replace(/\{account\}/g,msg.data.account.amount)
+															   .replace(/\{outAccount\}/g,msg.data.todayOutAccount.amount);
+								$("#resultRow").html(html);
+							}
+						},
+						error:function(e){
+							console.log(e);
+						}
+					});
+				});
+				/*]]>*/
+	</script>
+</body>
+</html>

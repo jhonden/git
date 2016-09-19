@@ -8,8 +8,8 @@
              今天是2016年09月05日    星期一
          </div>
          <div class="menu">
-             <a href="index.html" class="sy">首页</a>
-             <a href="lxwm_lxfs.html" class="lx">联系我们</a>
+             <a href="index" class="sy">首页</a>
+             <a href="lxwm_lxfs" class="lx">联系我们</a>
          </div>
 
      </div>
@@ -23,7 +23,7 @@
          <div class="nav clearfix">
              <div class="nav-list" id="navlist">
                  <ul class="clearfix">
-                     <li class="item01"><a href="about_information.html">关于我们</a></li>
+                     <li class="item01"><a href="../about_us/information">关于我们</a></li>
                      <li class="item02"><a href="news_firm.html">新闻中心</a></li>
                      <li class="item03"><a href="work_introduce_rzdb.html">业务介绍</a></li>
                      <li class="item04"><a href="work_process.html">业务流程</a></li>

@@ -51,7 +51,16 @@
 <!-- 		</mvc:interceptors> -->
 		
 <!-- 		静态资源处理器 -->
-		<mvc:resources location="/comm/" mapping="/comm/**" cache-period="31556926"/>
-		<mvc:resources location="/a_*/" mapping="/a_*/**" cache-period="31556926"/>
-		<mvc:resources location="/b_*/" mapping="/b_*/**" cache-period="31556926"/>
+		<mvc:resources location="/comm/" mapping="/comm/**" />
+		<mvc:resources location="/a_about_us/" mapping="/a_about_us/**" />
+		<mvc:resources location="/a_busi_apply/" mapping="/a_busi_apply/**" />
+		<mvc:resources location="/a_busi_introduction/" mapping="/a_busi_introduction/**" />
+		<mvc:resources location="/a_busi_process/" mapping="/a_busi_process/**" />
+		<mvc:resources location="/a_contact_us/" mapping="/a_contact_us/**" />
+		<mvc:resources location="/a_news_center/" mapping="/a_news_center/**" />
+		<mvc:resources location="/a_policy/" mapping="/a_policy/**" />
+		<mvc:resources location="/a_pub_announcement/" mapping="/a_pub_announcement/**" />
+		<mvc:resources location="/a_special_fund/" mapping="/a_special_fund/**" />
+		<mvc:resources location="/b_surpport/" mapping="/b_surpport/**" />
+		
 </beans>

@@ -9,6 +9,9 @@ public class RedirectController {
 	
 	@RequestMapping("/view/{viewId}")
 	public String execute(@PathVariable String viewId){
+		if(viewId.contains("@")){
+			return viewId.replaceAll("@", "/");
+		}
 		return viewId;
 	}
 

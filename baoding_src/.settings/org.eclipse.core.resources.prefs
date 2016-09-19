@@ -1,4 +1,9 @@
 eclipse.preferences.version=1
+encoding//WebRoot/WEB-INF/view/a_about_us/brand.jsp=UTF-8
+encoding//WebRoot/WEB-INF/view/a_about_us/culture.jsp=UTF-8
+encoding//WebRoot/WEB-INF/view/a_about_us/information.jsp=UTF-8
+encoding//WebRoot/WEB-INF/view/a_about_us/run.jsp=UTF-8
+encoding//WebRoot/WEB-INF/view/a_about_us/team.jsp=UTF-8
 encoding//WebRoot/WEB-INF/view/b_surpport/news/news.jsp=UTF-8
 encoding//WebRoot/WEB-INF/view/b_surpport/process/process_add.jsp=UTF-8
 encoding//WebRoot/WEB-INF/view/b_surpport/process/process_query.jsp=UTF-8
