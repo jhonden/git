@@ -23,19 +23,19 @@
             </div>
             <ul class="left-nav" id="left-nav">
                 <li>
-                    <a title="公司概况" href="about_information.html" style="z-index:2;">公司概况</a>
+                    <a title="公司概况" href="information" style="z-index:2;">公司概况</a>
                 </li>
                 <li>
-                    <a title="企业文化" class="current" href="about_culture.html" style="z-index:2;">企业文化</a>
+                    <a title="企业文化" class="current" href="culture" style="z-index:2;">企业文化</a>
                 </li>
                 <li>
-                    <a title="经营范围" href="about_run.html" style="z-index:2;">经营范围</a>
+                    <a title="经营范围" href="run" style="z-index:2;">经营范围</a>
                 </li>
                 <li>
-                    <a title="管理团队" href="about_team.html" style="z-index:2;">管理团队</a>
+                    <a title="管理团队" href="team" style="z-index:2;">管理团队</a>
                 </li>
                 <li>
-                    <a title="品牌优势" href="about_brand.html" style="z-index:2;">品牌优势</a>
+                    <a title="品牌优势" href="brand" style="z-index:2;">品牌优势</a>
                 </li>
             </ul>
             <div class="search">
@@ -62,44 +62,15 @@
         </div>
         <!--right End-->
     </div>
-    <!--bottom-->
-    <div class="bottom clearfix">
-        <div class="bottom-lt fl">
-            <p>
-                地址：陕西省西安市碑林区长安北路21号</p>
-            <p>
-                电话：02988880055</p>
-        </div>
-        <div class="bottom-rt fr">
-            <p>
-                陕西宝鼎融资担保有限公司
-                版权所有
-            </p>
-            <p>
-                Copyright © 2016 baoding All Right Reserved</p>
-        </div>
-    </div>
-    <!--bottom End-->
-    <!--footer-->
-    <div class="footer">
-        &nbsp;&nbsp;<a href="http://www.miitbeian.gov.cn/" target="_blank"> 陕ICP备16001295号</a>&nbsp;&nbsp;|&nbsp;&nbsp;技术支持：<a href="http://www.mingtengnet.com/" target="_blank">明腾-西部商务网</a>
-    </div>
-    <!--footer End-->
-    <!--返回顶部-->
-    <div class="scroll" id="scroll" style="display: none;">
-        回到顶部
-    </div>
+   <!--合作伙伴 End-->
+    <%@ include file="../footer.jsp" %>
 </div>
     <!--main End-->
-<div id="QQFloat2" style="Z-INDEX:999;left:5px;VISIBILITY:visible;WIDTH:140px;POSITION:absolute;TOP:100px;HEIGHT:200px;">
-    <img id="img" src="image/pf.jpg" border="1"><br><center>官方微信</center>
-    <br>
-    <a href="zxjj_xmsq.html" target="_blank"><img id="img" src="image/pf(1).jpg" border="1" width="135"></a><br>
-    <span style="cursor:pointer;color:red;font-weight:bold" onclick="QQFloat2.style.visibility = &#39;hidden&#39;;">×</span>
-</div>
-<script src="js/jquery.min.js"></script>
-<script src="js/jquery.SuperSlide.2.1.1.js"></script>
-<script src="js/about.js"></script>
-<script src="js/common.js"></script>
+	<%@ include file="../float_info.jsp" %>
+    
+    <script src="../comm/js/jquery-1.9.1.min.js"></script>
+    <script src="../comm/js/jquery.SuperSlide.2.1.1.js"></script>
+    <script src="../a_about_us/js/about.js"></script>
+    <script src="../comm/js/common.js"></script>
 </body>
 </html>

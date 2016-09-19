@@ -25,7 +25,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="contA-lt-a fl">
                     <div class="newsTit clearfix">
                         <h3>图片新闻</h3>
-                        <a href="news_firm.html">更多&gt;&gt;</a> </div>
+                        <a href="../news_center/company">更多&gt;&gt;</a> </div>
                     <div class="newsImg">
                         <dl>
                             <div class="newsImg-dot">
@@ -78,7 +78,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="contA-lt-b fl">
                     <div class="newsTit clearfix">
                         <h3>最新资讯</h3>
-                        <a href="news_trend.html">更多&gt;&gt;</a>
+                        <a href="../news_center/trend">更多&gt;&gt;</a>
                     </div>
                     <div class="newsInfo">
                         <div class="tit clearfix">
@@ -119,7 +119,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="contA-lt-c fl">
                     <div class="newsTit clearfix">
                         <h3>公司新闻</h3>
-                        <a href="news_firm.html">更多&gt;&gt;</a> </div>
+                        <a href="../news_center/company">更多&gt;&gt;</a> </div>
                     <ul class="newsList">
                         <li>
                             <span>2016/08/29</span>
@@ -160,7 +160,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
                 <div class="contA-lt-d fl">
                     <div class="newsTit clearfix">
                         <h3>行业动态</h3>
-                        <a href="news_trend.html">更多&gt;&gt;</a> </div>
+                        <a href="../news_center/trend">更多&gt;&gt;</a> </div>
                     <ul class="newsList">
                         <li>
                             <span>2016/01/21</span>
@@ -202,9 +202,9 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <div class="contA-rt fr">
                 <div class="newsTit clearfix">
                     <h3>公司概况</h3>
-                    <a href="about_information.html">更多&gt;&gt;</a> </div>
+                    <a href="../about_us/information">更多&gt;&gt;</a> </div>
                 <div class="about">
-                    <img src="image/6114210957.jpg" width="278" height="103">
+                    <img src="../comm/image/6114210957.jpg" width="278" height="103">
                     <p class="txt">四川发展融资担保股份有限公司（以下简称发展担保）成立于2010年，由四川发展（控股）有限公司、四川发展投资有限责任公司出资成立，注册资金10亿元，是一家专业从事融资担保服务的大型国有企业。...<a href="about_information.html">查看详细&gt;&gt;</a></p>
                 </div>
                 <div class="honor">
@@ -216,14 +216,14 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
                         <li><a href="gsgg_02.html">2、关于保险机构（诉讼保全保险业务）入围比选公告</a></li>
                     </ul>
-                    <a href="gsgg.html" class="honor-More">查看更多</a> </div>
+                    <a href="../pub_announcement/announcement" class="honor-More">查看更多</a> </div>
             </div>
             <!--公司概况 End-->
         </div>
         <!--contA End-->
         <!--contB-->
         <div class="contB clearfix">
-            <div class="contB-img fl"> <img src="image/adverImg.jpg" width="706" height="120"> </div>
+            <div class="contB-img fl"> <img src="../comm/image/adverImg.jpg" width="706" height="120"> </div>
             <div class="search fr">
                 <div class="searchTit">网站搜索</div>
                 <div class="searchBox clearfix">
@@ -241,7 +241,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <div class="contC-lt fl">
                 <div class="newsTit clearfix">
                     <h3>政策法规</h3>
-                    <a href="policy.html">更多&gt;&gt;</a> </div>
+                    <a href="../policy/policy">更多&gt;&gt;</a> </div>
                 <ul class="newsList">
                     <li><span>2015/09/06</span><a href="policy_01.html">最高法发布民间借贷案司法解释 9月1日起施行</a></li>
                     <li><span>2015/06/04</span><a href="policy_02.html">担保法司法解释及高院批复</a></li>
@@ -258,7 +258,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
             <div class="contC-md fl">
                 <div class="newsTit clearfix">
                     <h3>员工风采</h3>
-                    <a href="http://www.scfzdb.com/news.aspx?mid=65">更多&gt;&gt;</a> </div>
+                    <a href="../news_center/staff">更多&gt;&gt;</a> </div>
                 <ul class="newsList">
                     <li><span>2016/07/13</span><a href="news_staff_01.html">陕西宝鼎融资担保举办融资担保法律实务讲座</a></li>
                     <li><span>2016/07/06</span><a href="news_staff_02.html">陕西宝鼎融资担保召开担保业务制度培训会</a></li>

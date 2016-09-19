@@ -23,19 +23,19 @@
             </div>
             <ul class="left-nav" id="left-nav">
                 <li>
-                    <a title="公司概况"href="about_information.html" style="z-index:2;">公司概况</a>
+                    <a title="公司概况"  href="information" style="z-index:2;">公司概况</a>
                 </li>
                 <li>
-                    <a title="企业文化" href="about_culture.html" style="z-index:2;">企业文化</a>
+                    <a title="企业文化" href="culture" style="z-index:2;">企业文化</a>
                 </li>
                 <li>
-                    <a title="经营范围" href="about_run.html" style="z-index:2;">经营范围</a>
+                    <a title="经营范围" href="run" style="z-index:2;">经营范围</a>
                 </li>
                 <li>
-                    <a title="管理团队" href="about_team.html" style="z-index:2;">管理团队</a>
+                    <a title="管理团队" href="team" style="z-index:2;">管理团队</a>
                 </li>
                 <li>
-                    <a title="品牌优势" class="current"  href="about_brand.html" style="z-index:2;">品牌优势</a>
+                    <a title="品牌优势" class="current" href="brand" style="z-index:2;">品牌优势</a>
                 </li>
             </ul>
             <div class="search">
