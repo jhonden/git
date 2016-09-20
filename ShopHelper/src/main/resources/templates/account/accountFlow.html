@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="/semantic/semantic.min.css" />
+<script type="text/javascript" src="/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="/semantic/semantic.min.js"></script>
+<style type="text/css">
+	#buy{
+		padding:20px;
+	}
+	#header{
+		padding:20px;
+		padding-bottom:0px;
+		padding-top:10px;
+	}
+	#searchRow{
+		padding:0px;
+		padding-left:14px;
+	}
+	#resultRow{
+		padding:14px;
+		padding-top:0px;
+	}
+	#action{
+		float:right;
+		display: inline-block;
+		margin-right:0px;
+	}
+	#searchForm .search .prompt{
+		border-radius:500rem;
+	}
+	#resultRow td , #resultRow th{
+		text-align: center;
+	}
+</style>
+</head>
+<body id="buy">
+	<div class="ui grid">
+		  <div id="header" class="row">
+		    <div class="ui large breadcrumb">
+			  <a class="section">M 财务管理</a>
+			  <i class="right chevron icon divider"></i>
+			  <a class="section">账务流水</a>
+			  <i class="right chevron icon divider"></i>
+			  <div class="active section">LIST</div>
+			</div>
+		  </div>
+		  <div class="ui  divider"> </div>
+		  <div id="searchRow" class="row">
+		  	  <form id="searchForm" class="ui form">
+		  	  	 <div class="fields">
+			  	  	  <div class="inline field">
+				        <label>类别</label>
+				        <select class="ui dropdown" name="conditions['type']">
+				          <option value="  ">ALL</option>
+				          <option value="0">出账</option>
+				          <option value="1">入账</option>
+						</select>
+				      </div>
+					  <div class="ui field icon input">
+						  <input name="conditions['remark']"  type="text" placeholder="流水说明"/>
+						  <i id="searchItem" class="inverted circular search link icon" onclick="search()"></i>
+					  </div>
+				 </div>
+			  </form>
+		  </div>
+		  <div class="ui  divider"> </div>
+		  <div id="resultRow" class="row">
+			    <table class="ui celled padded table">
+					  <thead>
+					    <tr>
+					    	<th class="one wide">序号</th>
+						    <th class="three wide">流水类型</th>
+						    <th class="three wide">金额(元)</th>
+						    <th class="three wide">时间</th>
+						    <th class="three wide">备注</th>
+					  	</tr>
+					  </thead>
+					  <tbody id="result"></tbody>
+					  <tfoot id="pagefoot"></tfoot>
+				</table>
+		  </div>
+	</div>
+	<div id="templates" style="display:none;">
+	     <table >
+	     	<tbody id="rowTmp">
+	     		<tr>
+			      <td> {rowid}</td><td> {type}</td><td> {amount}</td> <td> {createDateStr}</td> <td> {remark}</td>
+			    </tr>
+	     	</tbody>
+	     </table>
+	     <table >
+	     	<tfoot id="pages">
+	     		<tr>
+		      	<th colspan="7">
+			      <div class="ui right floated pagination menu">
+			        <a class="icon item" onclick="page.firstPage()">首</a>
+			        <a class="icon item" onclick="page.prePage()">
+			          <i class="left chevron icon"></i>
+			        </a>
+			        {pages}
+			        <a class="icon item" onclick="page.nextPage()">
+			          <i class="right chevron icon"></i>
+			        </a>
+			        <a class="icon item" onclick="page.lastPage()">末</a>
+			        <div class="icon item">共{rows}行</div>
+			      </div>
+			    </th>
+			  </tr> 
+	     	</tfoot>
+	     </table>
+	    
+	</div>
+	<script type="text/javascript" src="/comm.js"></script>
+	<script type="text/javascript" src="/page.js"></script>
+	
+	
+	
+	<script th:inline="javascript" type="text/javascript">
+		/*<![CDATA[*/
+				var page;
+				var templates = {};
+				var types = {0:"出账",1:"入账"};
+				$(function(){
+					$('.ui.dropdown').dropdown().change(function(){
+						$("#searchItem").click();
+					});
+					templates.rowTmp = $("#rowTmp").html();
+					templates.pagefoot = $("#pages").html();
+					
+					page = new Page({
+						url : '/account/pages',
+						pageId : '1',
+						pageSize : '5',
+						conditions : '&'+$("#searchForm").serialize(),
+						containerId : 'result',
+						mapRow : function(data, rowid, pageid) {
+							return templates.rowTmp.replace(/\{rowid\}/g,rowid + 1)
+											       .replace(/\{type\}/g,types[data.type])
+											       .replace(/\{amount\}/g,data.amount)
+												   .replace(/\{createDateStr\}/g,data.createDateStr)
+												   .replace(/\{remark\}/g,data.remark);
+						},
+						before : function() {
+							$("#searchForm .input").addClass("loading");
+						},
+						after : function(page) {
+							$("#searchForm .input").removeClass("loading");
+							
+							var html = [];
+							for(var i=1; i<=page.getPageCount(); i++){
+								if(i==page.getPageId()){
+									html.push("<a class='icon active item' onclick='page.goPage("+i+")'>"+i+"</a>");
+								}else{
+									html.push("<a class='icon item' onclick='page.goPage("+i+")'>"+i+"</a>");
+								}
+							}
+							$("#pagefoot").html(templates.pagefoot.replace(/\{rows\}/g,page.getRows()).replace(/\{pages\}/g,html.join('')));
+						}
+					}).init();
+					
+					
+				});
+				
+				function search(){
+					page.setConditions('&'+$("#searchForm").serialize());
+					page.firstPage(true);
+					return false;
+				}
+				
+				/*]]>*/
+	</script>
+</body>
+</html>

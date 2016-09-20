@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="/semantic/semantic.min.css" />
+<script type="text/javascript" src="/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="/semantic/semantic.min.js"></script>
+<style type="text/css">
+	#buy{
+		padding:20px;
+	}
+	#header{
+		padding:20px;
+		padding-bottom:0px;
+		padding-top:10px;
+	}
+	#searchRow{
+		padding:0px;
+		padding-left:14px;
+	}
+	#resultRow{
+		padding:14px;
+		padding-top:0px;
+	}
+	#action{
+		float:right;
+		display: inline-block;
+		margin-right:0px;
+	}
+	#searchForm .search .prompt{
+		border-radius:500rem;
+	}
+	#resultRow td , #resultRow th{
+		text-align: center;
+	}
+	.cartlabel{
+		color:red;
+		display: inline-block;
+		padding:2px;
+	}
+	#cartModel .middle.aligned.content{
+		align-self:center;
+		min-width:150px;
+	}
+	
+	#cartModel .middle.aligned.center.content{
+		text-align: center;
+	}
+	
+	#cartModel .my.ui.label>.icon{
+		margin:0;
+	}
+	#cartModel .my.input{
+		text-align: center;
+		max-width:60px;
+	}
+	
+	#cartModel .totleInfo{
+		display:inline-block;
+		float:left;
+		text-align: left;
+		color:red;
+		font-size: 19px;
+	}
+	#cartModel .delete.icon.button{
+		color:gray;
+		cursor: pointer;
+	}
+	#cartModel .delete.icon.button:hover{
+		color: #333333;
+	}
+	#alertModel{
+		color:red;
+		text-align: center;
+	}
+</style>
+</head>
+<body id="buy">
+	<div class="ui grid">
+		  <div id="header" class="row">
+		    <div class="ui large breadcrumb">
+			  <a class="section">B 销售管理</a>
+			  <i class="right chevron icon divider"></i>
+			  <a class="section">商品信息</a>
+			  <i class="right chevron icon divider"></i>
+			  <div class="active section">LIST</div>
+			</div>
+		  </div>
+		  <div class="ui  divider"> </div>
+		  <div id="searchRow" class="row">
+		  	  <form id="searchForm" class="ui form">
+		  	  	 <div class="fields">
+			  	  	  <div class="inline field">
+				        <label>商品类别</label>
+				        <select class="ui dropdown" name="conditions['typeid']">
+				          <option value="  ">ALL</option>
+						  <option th:each="ptype,typeStat:${ptypes}" th:value="${ptype.id}" th:text="${ptype.name}">Gender</option>
+						</select>
+				      </div>
+					  <div class="ui field icon input">
+						  <input name="conditions['name']"  type="text" placeholder="商品名称"/>
+						  <i id="searchItem" class="inverted circular search link icon" onclick="search()"></i>
+					  </div>
+				 </div>
+			  </form>
+		  </div>
+		  <div class="ui  divider"> </div>
+		  <div id="resultRow" class="row">
+			    <table class="ui celled padded table">
+					  <thead>
+					    <tr>
+					    	<th class="one wide">序号</th>
+						    <th class="three wide">商品类型</th>
+						    <th class="three wide">商品名称</th>
+						    <th class="three wide">商品库存</th>
+						    <th class="three wide">商品售价</th>
+						    <th class="three wide">
+						    	<div id="buyCar" class="ui left labeled  button" data-content="5">
+						    	  <a class="ui basic red right pointing label" id="itermCount">
+								  </a>
+								  <div class="ui red button"><i class="cart icon"></i> Cart</div>
+								</div>
+							</th>
+					  	</tr>
+					  </thead>
+					  <tbody id="result"></tbody>
+					  <tfoot id="pagefoot"></tfoot>
+				</table>
+		  </div>
+	</div>
+	<div id="templates" style="display:none;">
+	     <table >
+	     	<tbody id="rowTmp">
+	     		<tr>
+			      <td> {rowid}</td><td> {type}</td><td> {name}</td> <td> {pcount}</td><td> {sellPrice}</td>
+			      <td > 
+			      	<div class="ui right labeled input " >
+					  <input type="text" id="{id}_pcount" placeholder="购买量..."  value="1" />
+					  <button class="ui teal label" onclick="addToCar({id})"><i class=" add to cart icon"></i> </button>
+					</div>
+			       </td>
+			    </tr>
+	     	</tbody>
+	     </table>
+	     <table >
+	     	<tfoot id="pages">
+	     		<tr>
+		      	<th colspan="6">
+			      <div class="ui right floated pagination menu">
+			        <a class="icon item" onclick="page.firstPage()">首</a>
+			        <a class="icon item" onclick="page.prePage()">
+			          <i class="left chevron icon"></i>
+			        </a>
+			        {pages}
+			        <a class="icon item" onclick="page.nextPage()">
+			          <i class="right chevron icon"></i>
+			        </a>
+			        <a class="icon item" onclick="page.lastPage()">末</a>
+			        <div class="icon item">共{rows}行</div>
+			      </div>
+			    </th>
+			  </tr> 
+	     	</tfoot>
+	     </table>
+	    <div id="cartItermTmp">
+	    	<div class="ui  piled segment">
+				   <div class="ui divided items">
+					  <div class="item">
+					    <div class="ui tiny image">
+					      <img src="/products/icon.png"/>
+					    </div>
+					    <div class="middle aligned content"><strong>{pname}</strong></div>
+					    <div class="middle aligned content">
+					    		<strong>金额：</strong>{price} * {pcount} = {sellPrice}  <strong>&nbsp;(元) </strong>
+					    </div>
+					    <div class="middle aligned center content">
+					    	<div class="ui right labeled input">
+								  <div class="my ui label button" onclick="change('{productid}',-1)"><i class="minus icon right"></i></div>
+								  <input id="p_{productid}" onchange="change('{productid}',0)" class="my input" type="text" value="{pcount}"/>
+								  <div class="my ui label button" onclick="change('{productid}',1)"><i class="plus icon"></i></div>
+							</div>
+					    </div>
+					     <div class="middle aligned center content">
+					     	<i onclick="delProduct({productid})" class="large  delete icon button"></i>
+					    </div>
+					  </div>
+					</div>
+				</div>
+	    </div>
+	    <div id="actionTmp">
+	    		<div class="totleInfo">
+			      <strong>合计：</strong>{totlePrice}  <strong>&nbsp;(元) </strong>
+			    </div>
+			    <div class="ui black  button" onclick="clearCart()">
+			      	清空
+			    </div>
+			    <div class="ui positive right labeled icon button" onclick="cashCart()">
+			    	  结算
+			      <i class="checkmark icon"></i>
+			    </div>
+	     </div>
+	</div>
+	
+	<div id="cartModel" class="ui modal">
+	  <i class="close icon"></i>
+	  <div class="header">
+	                       销售清单
+	  </div>
+	  <div class="content">
+		  <div id="cartItermsList" class="ui  segments ">
+		        
+		  </div>
+	  </div>
+	  <div id="cartAction" class="actions">
+	  	
+	  </div>
+	</div>
+	
+	<div id="alertModel" class="ui small modal">
+	  <i class="close icon"></i>
+	  <div class="content">
+	                       库存不足
+	  </div>
+	</div>
+	
+	<script type="text/javascript" src="/comm.js"></script>
+	<script type="text/javascript" src="/page.js"></script>
+	
+	
+	
+	<script th:inline="javascript" type="text/javascript">
+		/*<![CDATA[*/
+				var page;
+				var templates = {};
+				$(function(){
+					$('.ui.dropdown').dropdown().change(function(){
+						$("#searchItem").click();
+					});
+					
+					templates.rowTmp = $("#rowTmp").html();
+					templates.pagefoot = $("#pages").html();
+					templates.cartItem = $("#cartItermTmp").html();
+					templates.actionTmp = $("#actionTmp").html();
+					
+					page = new Page({
+						url : '/sell/pages',
+						pageId : '1',
+						pageSize : '5',
+						conditions : '&'+$("#searchForm").serialize(),
+						containerId : 'result',
+						mapRow : function(data, rowid, pageid) {
+							return templates.rowTmp.replace(/\{rowid\}/g,rowid + 1)
+											       .replace(/\{id\}/g,data.id)
+											       .replace(/\{type\}/g,data.ptype.name)
+												   .replace(/\{name\}/g,data.name)
+												   .replace(/\{pcount\}/g,data.pcount)
+												   .replace(/\{buyPrice\}/g,data.buyPrice)
+												   .replace(/\{sellPrice\}/g,data.sellPrice);
+						},
+						before : function() {
+							$("#searchForm .input").addClass("loading");
+						},
+						after : function(page) {
+							$("#searchForm .input").removeClass("loading");
+							
+							var html = [];
+							for(var i=1; i<=page.getPageCount(); i++){
+								if(i==page.getPageId()){
+									html.push("<a class='icon active item' onclick='page.goPage("+i+")'>"+i+"</a>");
+								}else{
+									html.push("<a class='icon item' onclick='page.goPage("+i+")'>"+i+"</a>");
+								}
+							}
+							$("#pagefoot").html(templates.pagefoot.replace(/\{rows\}/g,page.getRows()).replace(/\{pages\}/g,html.join('')));
+						}
+					}).init();
+					//更新购物车
+					refreshCart();
+					$('#cartModel').modal();
+					$('#alertModel').modal();
+					$("#buyCar").click(function(){
+						$('#cartModel').modal("show");
+					});
+				});
+				
+				function search(){
+					page.setConditions('&'+$("#searchForm").serialize());
+					page.firstPage(true);
+					return false;
+				}
+				
+				function addToCar(id){
+					var pcount = $("#"+id+"_pcount").val(); 
+					$.ajax({
+						url:'/cart/add',
+						contentType:'application/json',
+						dataType:'json',
+						data:JSON.stringify({id:id,pcount:pcount}),
+						method:'post',
+						success:function(msg){
+							if(msg.status == "0"){
+								refreshCart();
+								page.refreshPage();
+							}else if(msg.status == "-1"){
+								$('#alertModel').modal("show");
+							}
+						},
+						error:function(e){
+							console.log(e);
+						}
+					});
+				}
+				
+				function refreshCart(){
+					$.ajax({
+						url:'/cart/iterms',
+						method:'post',
+						success:function(msg){
+							if(msg.status == "0"){
+								$("#itermCount").text(msg.data.itermCount);
+								var html = [];
+								var totlePrice = 0;
+								for(var i=0; i< msg.data.cartIterms.length; i++){
+									html.push(genIterm(msg.data.cartIterms[i]));
+									totlePrice += msg.data.cartIterms[i].sellPrice;
+								}
+								if(html.length > 0){
+									$("#cartItermsList").html(html.join(" "));
+								}else{
+									$("#cartItermsList").html("没有添加商品");
+								}
+								$("#cartAction").html(templates.actionTmp.replace(/\{totlePrice\}/g,totlePrice));
+							}
+						},
+						error:function(e){
+							console.log(e);
+						}
+					});
+				}
+				
+				function change(productId,value){
+					var newValue = parseInt($("#p_"+productId).val()) + value;
+					if(newValue < 1){
+						refreshCart();
+						return;
+					}
+					$.ajax({
+						url:'/cart/change',
+						method:'post',
+						contentType:'application/json',
+						dataType:'json',
+						data:JSON.stringify({id:productId,pcount:newValue}),
+						success:function(msg){
+							refreshCart();
+							if(msg.status == "0"){
+								page.refreshPage();
+							}else if(msg.status == "-1"){
+								$('#alertModel').modal("show");
+							}
+						},
+						error:function(e){
+							console.log(e);
+						}
+					});
+				}
+				
+				function delProduct(productId){
+					$.ajax({
+						url:'/cart/delProduct',
+						method:'post',
+						contentType:'application/json',
+						dataType:'json',
+						data:JSON.stringify({id:productId}),
+						success:function(msg){
+							if(msg.status == "0"){
+								refreshCart();
+								page.refreshPage();
+							}
+						},
+						error:function(e){
+							console.log(e);
+						}
+					});
+				}
+				
+				function clearCart(){
+					$.ajax({
+						url:'/cart/clearCart',
+						method:'post',
+						success:function(msg){
+							if(msg.status == "0"){
+								refreshCart();
+								page.refreshPage();
+							}
+						},
+						error:function(e){
+							console.log(e);
+						}
+					});
+					return false;
+				}
+				
+				function cashCart(){
+					$.ajax({
+						url:'/cart/cash',
+						method:'post',
+						success:function(msg){
+							if(msg.status == "0"){
+								refreshCart();
+								page.refreshPage();
+							}
+						},
+						error:function(e){
+							console.log(e);
+						}
+					});
+					return false;
+				}
+				
+				function genIterm(cartIterm){
+					return templates.cartItem.replace(/\{pname\}/g,cartIterm.pname)
+				       .replace(/\{id\}/g,cartIterm.id)
+				       .replace(/\{productid\}/g,cartIterm.productid)
+				       .replace(/\{pcount\}/g,cartIterm.pcount)
+					   .replace(/\{sellPrice\}/g,cartIterm.sellPrice)
+					   .replace(/\{pcount\}/g,cartIterm.pcount)
+					   .replace(/\{price\}/g,cartIterm.sellPrice/cartIterm.pcount)
+					   ;
+				}
+				
+				
+				/*]]>*/
+	</script>
+</body>
+</html>

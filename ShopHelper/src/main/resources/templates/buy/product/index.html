@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<title>Insert title here</title>
+<link rel="stylesheet" type="text/css" href="/semantic/semantic.min.css" />
+<script type="text/javascript" src="/jquery-3.1.0.min.js"></script>
+<script type="text/javascript" src="/semantic/semantic.min.js"></script>
+<style type="text/css">
+	#buy{
+		padding:20px;
+	}
+	#header{
+		padding:20px;
+		padding-bottom:0px;
+		padding-top:10px;
+	}
+	#searchRow{
+		padding:0px;
+		padding-left:14px;
+	}
+	#resultRow{
+		padding:14px;
+		padding-top:0px;
+	}
+	#action{
+		float:right;
+		display: inline-block;
+		margin-right:0px;
+	}
+	#searchForm .search .prompt{
+		border-radius:500rem;
+	}
+	#resultRow td , #resultRow th{
+		text-align: center;
+	}
+</style>
+</head>
+<body id="buy">
+	<div class="ui grid">
+		  <div id="header" class="row">
+		    <div class="ui large breadcrumb">
+			  <a class="section">B 进货管理</a>
+			  <i class="right chevron icon divider"></i>
+			  <a class="section">商品信息</a>
+			  <i class="right chevron icon divider"></i>
+			  <div class="active section">LIST</div>
+			</div>
+		  </div>
+		  <div class="ui  divider"> </div>
+		  <div id="searchRow" class="row">
+		  	  <form id="searchForm" class="ui form">
+		  	  	 <div class="fields">
+			  	  	  <div class="inline field">
+				        <label>商品类别</label>
+				        <select class="ui dropdown" name="conditions['typeid']">
+				          <option value="  ">ALL</option>
+						  <option th:each="ptype,typeStat:${ptypes}" th:value="${ptype.id}" th:text="${ptype.name}">Gender</option>
+						</select>
+				      </div>
+					  <div class="ui field icon input">
+						  <input name="conditions['name']"  type="text" placeholder="商品名称"/>
+						  <i id="searchItem" class="inverted circular search link icon" onclick="search()"></i>
+					  </div>
+				 </div>
+			  </form>
+		  </div>
+		  <div class="ui  divider"> </div>
+		  <div id="resultRow" class="row">
+			    <table class="ui celled padded table">
+					  <thead>
+					    <tr>
+					    	<th class="one wide">序号</th>
+						    <th class="three wide">商品类型</th>
+						    <th class="three wide">商品名称</th>
+						    <th class="three wide">商品库存</th>
+						    <th class="two wide">平均进价</th>
+						    <th class="two wide">商品售价</th>
+						    <th class="four wide">
+						    	<button class="ui circular twitter icon button" onclick="goTo('/product/toAdd')">
+								  <i class="plus icon"></i>
+								</button>
+							</th>
+					  	</tr>
+					  </thead>
+					  <tbody id="result"></tbody>
+					  <tfoot id="pagefoot"></tfoot>
+				</table>
+		  </div>
+	</div>
+	<div id="templates" style="display:none;">
+	     <table >
+	     	<tbody id="rowTmp">
+	     		<tr>
+			      <td> {rowid}</td><td> {type}</td><td> {name}</td> <td> {pcount}</td><td> {buyPrice}</td> <td> {sellPrice}</td>
+			      <td> 
+				      	<a class="icon item" onclick="edit({id})">
+				          <i class="large file text icon"></i>
+				        </a>
+				        <a class="icon item" onclick="delet({id})">
+				          <i class="large trash icon"></i>
+				        </a>
+			       </td>
+			    </tr>
+	     	</tbody>
+	     </table>
+	     <table >
+	     	<tfoot id="pages">
+	     		<tr>
+		      	<th colspan="7">
+			      <div class="ui right floated pagination menu">
+			        <a class="icon item" onclick="page.firstPage()">首</a>
+			        <a class="icon item" onclick="page.prePage()">
+			          <i class="left chevron icon"></i>
+			        </a>
+			        {pages}
+			        <a class="icon item" onclick="page.nextPage()">
+			          <i class="right chevron icon"></i>
+			        </a>
+			        <a class="icon item" onclick="page.lastPage()">末</a>
+			        <div class="icon item">共{rows}行</div>
+			      </div>
+			    </th>
+			  </tr> 
+	     	</tfoot>
+	     </table>
+	    
+	</div>
+	<div class="ui small modal">
+	  <i class="close icon"></i>
+	  <div class="header">
+	    	确认
+	  </div>
+	  <div class="image content">
+	    <div class="image">
+	     	 确认要删除吗？
+	    </div>
+	  </div>
+	  <div class="actions">
+	    <div class="ui cancel button">Cancel</div>
+	    <div class="ui approve button">OK</div>
+	  </div>
+	</div>
+	<script type="text/javascript" src="/comm.js"></script>
+	<script type="text/javascript" src="/page.js"></script>
+	
+	
+	
+	<script th:inline="javascript" type="text/javascript">
+		/*<![CDATA[*/
+				var page;
+				var templates = {};
+				$(function(){
+					$('.ui.dropdown').dropdown().change(function(){
+						$("#searchItem").click();
+					});
+					templates.rowTmp = $("#rowTmp").html();
+					templates.pagefoot = $("#pages").html();
+					
+					page = new Page({
+						url : '/product/pages',
+						pageId : '1',
+						pageSize : '5',
+						conditions : '&'+$("#searchForm").serialize(),
+						containerId : 'result',
+						mapRow : function(data, rowid, pageid) {
+							return templates.rowTmp.replace(/\{rowid\}/g,rowid + 1)
+											       .replace(/\{id\}/g,data.id)
+											       .replace(/\{type\}/g,data.ptype.name)
+												   .replace(/\{name\}/g,data.name)
+												   .replace(/\{pcount\}/g,data.pcount)
+												   .replace(/\{buyPrice\}/g,data.buyPrice)
+												   .replace(/\{sellPrice\}/g,data.sellPrice);
+						},
+						before : function() {
+							$("#searchForm .input").addClass("loading");
+						},
+						after : function(page) {
+							$("#searchForm .input").removeClass("loading");
+							
+							var html = [];
+							for(var i=1; i<=page.getPageCount(); i++){
+								if(i==page.getPageId()){
+									html.push("<a class='icon active item' onclick='page.goPage("+i+")'>"+i+"</a>");
+								}else{
+									html.push("<a class='icon item' onclick='page.goPage("+i+")'>"+i+"</a>");
+								}
+							}
+							$("#pagefoot").html(templates.pagefoot.replace(/\{rows\}/g,page.getRows()).replace(/\{pages\}/g,html.join('')));
+						}
+					}).init();
+					
+					
+				});
+				
+				function search(){
+					page.setConditions('&'+$("#searchForm").serialize());
+					page.firstPage(true);
+					return false;
+				}
+				
+				function delet(id){
+					$('.ui.modal').modal({
+					    closable  : true,
+					    onDeny    : function(){
+					      return true;
+					    },
+					    onApprove : function() {
+							$.ajax({
+								url:'/product/delete',
+								data:"id="+id,
+								method:'post',
+								success:function(msg){
+									if(msg.status == "0"){
+										page.refreshPage();
+									}
+								},
+								error:function(e){
+									console.log(e);
+								}
+							});
+					    }
+					  }).modal('show');
+				}
+				
+				function edit(id){
+					goTo("/product/load/"+id);
+				}
+				/*]]>*/
+	</script>
+</body>
+</html>

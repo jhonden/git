@@ -1,0 +1,3 @@
+My banner
+${application.title}
+${application.version}
