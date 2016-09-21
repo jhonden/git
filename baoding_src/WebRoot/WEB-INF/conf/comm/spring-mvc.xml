@@ -62,5 +62,6 @@
 		<mvc:resources location="/a_pub_announcement/" mapping="/a_pub_announcement/**" />
 		<mvc:resources location="/a_special_fund/" mapping="/a_special_fund/**" />
 		<mvc:resources location="/b_surpport/" mapping="/b_surpport/**" />
+		<mvc:resources location="/weather/" mapping="/weather/**"/>
 		
 </beans>
