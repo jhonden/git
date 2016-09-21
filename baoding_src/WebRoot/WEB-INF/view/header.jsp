@@ -1,7 +1,7 @@
 <%@ page language="java" import="java.util.*"  pageEncoding="UTF-8"%>
  <div class="top">
      <div class="top-rt clearfix">
-         <div class="weather fl">
+         <div id="weather_id" class="weather fl">
              &nbsp;<img width="25px" height="18px" src="../comm/image/xiaoyu.png" style="vertical-align:middle;">&nbsp;<font class="red">22 </font>~<font class="green"> 19℃</font>&nbsp; 北风微风
          </div>
          <div class="date fl">
@@ -63,3 +63,28 @@
          </div>
      </div>
  </div>
+
+ <script src="<%=basePath %>comm/js/jquery-1.9.1.min.js"></script>
+ <script type="text/javascript">
+   $(function(){
+	   $.ajax({
+			url:'/baoding/weather/getWeather',
+			type:'post',
+			success:function(msg){
+				var result = eval('('+msg+')');
+				if(msg != ''){
+					var src = "../comm/image/weather/weather_"+result.png+".png";
+					var html = "&nbsp;";
+					    html += "<img width=\"25px\" height=\"18px\" src="+src+" style=\"vertical-align:middle;\">&nbsp;";
+					    html += "<font class=\"red\">"+result.temperature2+" </font>~<font class=\"green\"> "+result.temperature1+"℃</font>&nbsp;"+result.direction+result.power+"级";
+					    $('#weather_id').html(html);
+				}
+				
+			},
+			error:function(){
+				
+			}
+		});
+   })
+</script>
+ 
